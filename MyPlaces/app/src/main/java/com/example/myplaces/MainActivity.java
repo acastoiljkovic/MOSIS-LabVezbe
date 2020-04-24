@@ -1,11 +1,13 @@
 package com.example.myplaces;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -14,8 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
 
+public class MainActivity extends AppCompatActivity {
+    static int NEW_PLACE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
         if(id == R.id.show_map_item){
             Toast.makeText(this,"Show Map", Toast.LENGTH_SHORT).show();
         }else if(id == R.id.new_place_item){
-            Toast.makeText(this,"New Place", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, EditMyPlaceActvity.class);
+            startActivityForResult(i,NEW_PLACE);
         }else if(id == R.id.my_places_list_item){
             Intent i = new Intent(this, MyPlacesList.class);
             startActivity(i);
@@ -60,5 +64,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK){
+            Toast.makeText(this,"New PLace Added",Toast.LENGTH_SHORT).show();
+        }
     }
 }
