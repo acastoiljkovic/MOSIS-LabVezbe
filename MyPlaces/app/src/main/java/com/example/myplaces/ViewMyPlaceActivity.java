@@ -33,7 +33,7 @@ public class ViewMyPlaceActivity extends AppCompatActivity {
             finish();
         }
 
-        if( position > 0){
+        if( position >= 0){
             MyPlace place = MyPlacesData.getInstance().getPlace(position);
             TextView twName = (TextView) findViewById(R.id.viewmyplace_name_text);
             twName.setText(place.getName());
