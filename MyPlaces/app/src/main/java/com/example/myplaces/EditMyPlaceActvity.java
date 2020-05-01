@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -80,6 +81,9 @@ public class EditMyPlaceActvity extends AppCompatActivity implements View.OnClic
                 finishedBtn.setEnabled(true);
             }
         });
+
+        Button locationButton=findViewById(R.id.editmyplace_location_button);
+        locationButton.setOnClickListener(this);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,29 +104,69 @@ public class EditMyPlaceActvity extends AppCompatActivity implements View.OnClic
                 String name = etName.getText().toString();
                 EditText descName = (EditText)findViewById(R.id.editmyplace_desc_edit);
                 String desc = descName.getText().toString();
+                EditText latEdit=findViewById(R.id.editmyplace_lat_edit);
+                String lat=latEdit.getText().toString();
+                EditText lonEdit=findViewById(R.id.editmyplace_lon_edit);
+                String lon=lonEdit.getText().toString();
+
 
                 if(!editMode){
-                    MyPlacesData.getInstance().addNewPlace(new MyPlace(name,desc));
+                    MyPlace myPlace=new MyPlace(name,desc);
+                    myPlace.setLatitude(lat);
+                    myPlace.setLongitude(lon);
+                    MyPlacesData.getInstance().addNewPlace(myPlace);
                 }
                 else{
                     MyPlace place= MyPlacesData.getInstance().getPlace(position);
                     place.setName(name);
                     place.setDescription(desc);
+                    place.setLatitude(lat);
+                    place.setLongitude(lon);
+
                 }
                 setResult(Activity.RESULT_OK);
                 finish();
                 break;
             }
+
+            case R.id.editmyplace_location_button:
+            {
+                Intent i=new Intent(this,MyPlacesMapsActivity.class);
+                i.putExtra("state",MyPlacesMapsActivity.SELECT_COORDINATES);
+                startActivityForResult(i,1);
+            }
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        try{
+            if(resultCode== Activity.RESULT_OK){
+                String lon=data.getExtras().getString("lon");
+                EditText lonText=findViewById(R.id.editmyplace_lon_edit);
+                lonText.setText(lon);
+
+                String lat=data.getExtras().getString("lat");
+                EditText latText=findViewById(R.id.editmyplace_lat_edit);
+                latText.setText(lat);
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
         if(id == R.id.show_map_item){
-            Toast.makeText(this,"Show Map", Toast.LENGTH_SHORT).show();
+            Intent i=new Intent(this,MyPlacesMapsActivity.class);
+            i.putExtra("state",MyPlacesMapsActivity.SHOW_MAP);
+            startActivity(i);
         }else if(id == R.id.my_places_list_item){
             Intent i = new Intent(this, MyPlacesList.class);
             startActivity(i);

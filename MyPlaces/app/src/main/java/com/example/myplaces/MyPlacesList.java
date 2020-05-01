@@ -33,6 +33,7 @@ public class MyPlacesList extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +64,7 @@ public class MyPlacesList extends AppCompatActivity {
                 menu.setHeaderTitle(place.getName());
                 menu.add(0,1,1,"View place");
                 menu.add(0,2,2,"Edit place");
+                menu.add(0,3,3,"Delete place");
             }
         });
     }
@@ -120,7 +122,16 @@ public class MyPlacesList extends AppCompatActivity {
             i.putExtras(positionBundle);
             startActivityForResult(i,1);
         }
+        else if(item.getItemId()==3){
+            MyPlacesData.getInstance().deletePlace(info.position);
+            setList();
+        }
         return super.onContextItemSelected(item);
+    }
+
+    private void setList(){
+        ListView myPlacesList=findViewById(R.id.my_places);
+        myPlacesList.setAdapter(new ArrayAdapter<MyPlace>(this,android.R.layout.simple_list_item_1,MyPlacesData.getInstance().getMyPlaces()));
     }
 
 }
