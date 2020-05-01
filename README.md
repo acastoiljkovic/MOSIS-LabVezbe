@@ -1,1 +1,1 @@
-# MOSIS-LabVezbe
+# MOSIS Lab Vezbe
