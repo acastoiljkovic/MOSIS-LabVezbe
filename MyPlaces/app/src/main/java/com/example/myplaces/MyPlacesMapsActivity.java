@@ -50,6 +50,13 @@ public class MyPlacesMapsActivity extends AppCompatActivity implements OnMapRead
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyPlacesData.getInstance().setEventListener(new ListUpdatedEventListener() {
+            @Override
+            public void onListUpdated() {
+                addMyPlaceMarkers();
+            }
+        });
+
         try{
             Intent mapIntent=getIntent();
             Bundle mapBundle=mapIntent.getExtras();

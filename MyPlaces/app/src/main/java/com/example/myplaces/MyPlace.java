@@ -1,11 +1,20 @@
 package com.example.myplaces;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+
+@IgnoreExtraProperties
 public class MyPlace {
-    String name;
-    String description;
-    String longitude;
-    String latitude;
+//    https://myplaces-28a27.firebaseio.com/
+    public String name;
+    public String description;
+    public String longitude;
+    public String latitude;
     int ID;
+
+    @Exclude
+    public String key;
+    public MyPlace(){}
 
     public int getID() {
         return ID;
