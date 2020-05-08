@@ -26,7 +26,14 @@
     <string name="editmyplace_lat_label">Latitude:</string>
     <string name="editmyplace_lon_label">Longitude:</string>
     <string name="editmyplace_location_label">Get Location</string>
-    
+
+    <string name="login_email_hint">Enter email address</string>
+    <string name="login_password_hint">Enter password</string>
+    <string name="login_password_confirm_hint">Confirm password</string>
+    <string name="login_btn_login">LOGIN</string>
+    <string name="login_btn_register">REGISTER</string>
+    <string name="login_btn_back">GO BACK</string>
+
 
     <string name="viewmyplace_finished_button">OK</string>
     <string name="title_activity_my_places_maps">Map</string>

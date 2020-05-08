@@ -1,8 +1,11 @@
 package com.example.myplaces;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,6 +22,7 @@ public class MyPlacesData {
     private DatabaseReference database;
     private static final String FIREBASE_CHILD = "my-places";
     ListUpdatedEventListener updateListener;
+    User user;
 
     private MyPlacesData() {
         myPlaces = new ArrayList<MyPlace>();
@@ -26,6 +30,15 @@ public class MyPlacesData {
         database = FirebaseDatabase.getInstance().getReference();
         database.child(FIREBASE_CHILD).addChildEventListener(childEventListener);
         database.child(FIREBASE_CHILD).addListenerForSingleValueEvent(parentEventListener);
+        user= null;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setEventListener(ListUpdatedEventListener listener){
@@ -53,9 +66,9 @@ public class MyPlacesData {
                 myPlace.key = myPlaceKey;
                 myPlaces.add(myPlace);
                 myPlacesKeyIndexMapping.put(myPlaceKey,myPlaces.size()-1);
-                if(updateListener != null)
-                    updateListener.onListUpdated();
             }
+            if(updateListener != null)
+                updateListener.onListUpdated();
         }
 
         @Override
@@ -82,9 +95,9 @@ public class MyPlacesData {
                 int index = myPlacesKeyIndexMapping.get(myPlaceKey);
                 myPlaces.remove(index);
                 recreateKeyIndexMapping();
-                if(updateListener != null)
-                    updateListener.onListUpdated();
             }
+            if(updateListener != null)
+                updateListener.onListUpdated();
 
         }
 

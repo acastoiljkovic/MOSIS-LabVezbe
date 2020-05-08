@@ -107,6 +107,14 @@ public class MyPlacesMapsActivity extends AppCompatActivity implements OnMapRead
     }
 
     @Override
+    protected void onResume() {
+        if(mMap != null) {
+            addMyPlaceMarkers();
+        }
+        super.onResume();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         if(state==SELECT_COORDINATES && !selCoorsEnabled){
